@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  branch = "master"
+  digest = "1:5267913821751d1d8bc8c041a613c3a68b68e24170f0dcc51e1e2bb06d7368f5"
+  name = "github.com/gin-contrib/multitemplate"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "95dee0dedf35ff52b4f3c94904630e5be19c055e"
+
+[[projects]]
   digest = "1:3ee1d175a75b911a659fbd860060874c4f503e793c5870d13e5a0ede529a63cf"
   name = "github.com/gin-contrib/sse"
   packages = ["."]
@@ -124,6 +132,9 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  input-imports = ["github.com/gin-gonic/gin"]
+  input-imports = [
+    "github.com/gin-contrib/multitemplate",
+    "github.com/gin-gonic/gin",
+  ]
   solver-name = "gps-cdcl"
   solver-version = 1
