@@ -2,9 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/SiteTop.vue';
 
-import firebase from 'firebase';
-
-const config = {};
+import * as firebase from 'firebase/app';
 
 Vue.use(VueRouter);
 
@@ -48,7 +46,12 @@ router.beforeEach((to, from, next) => {
         return;
     }
 
-    next('/signin');
+    const currentUser = firebase.auth().currentUser;
+    if (!currentUser) {
+        next('/signin');
+    } else {
+        next();
+    }
 });
 
 export default router;
