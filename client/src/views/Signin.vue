@@ -3,5 +3,29 @@
         <div class="pageTitle">
             <h1>ログイン画面</h1>
         </div>
+        <button type="button" class="btn submitButton" @click="signinWithGoogle">Googleログイン</button>
     </div>
 </template>
+
+<script lang="ts">
+import { Vue, Component, Prop } from 'vue-property-decorator';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+
+@Component({})
+export default class Signin extends Vue {
+    private signinWithGoogle() {
+        const provider: firebase.auth.GoogleAuthProvider = new firebase.auth.GoogleAuthProvider();
+        firebase
+            .auth()
+            .signInWithPopup(provider)
+            .then(result => {
+                this.$router.push('/addnewbook');
+            })
+            .catch(error => {
+                console.log(error);
+                this.$router.push('/');
+            });
+    }
+}
+</script>

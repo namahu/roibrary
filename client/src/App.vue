@@ -1,12 +1,27 @@
 <template>
     <div id="app">
         <div id="nav">
-            <router-link to="/">Home</router-link> |
+            <router-link to="/">Home</router-link>|
             <router-link to="/about">About</router-link>
+            <button type="button" @click="signout">signout</button>
         </div>
         <router-view />
     </div>
 </template>
+
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+
+@Component({})
+export default class App extends Vue {
+    signout() {
+        firebase.auth().signOut();
+        this.$router.push('/');
+    }
+}
+</script>
 
 <style lang="scss">
 #app {
