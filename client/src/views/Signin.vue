@@ -20,6 +20,15 @@ export default class Signin extends Vue {
             .auth()
             .signInWithPopup(provider)
             .then(result => {
+                if (result.user === null) {
+                    this.$router.push('/');
+                    return;
+                }
+
+                result.user.getIdToken().then(idToken => {
+                    localStorage.setItem('jwt', idToken.toString());
+                });
+
                 this.$router.push('/addnewbook');
             })
             .catch(error => {

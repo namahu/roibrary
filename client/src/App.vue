@@ -17,8 +17,13 @@ import 'firebase/auth';
 @Component({})
 export default class App extends Vue {
     signout() {
-        firebase.auth().signOut();
-        this.$router.push('/');
+        firebase
+            .auth()
+            .signOut()
+            .then(() => {
+                localStorage.removeItem('jwt');
+                this.$router.push('/');
+            });
     }
 }
 </script>
