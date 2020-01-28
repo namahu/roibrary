@@ -3,7 +3,7 @@
         <div class="pageTitle">
             <h1>ログイン画面</h1>
         </div>
-        <button type="button" class="btn submitButton" @click="signinWithGoogle">Googleログイン</button>
+        <button type="button" class="baseButton submitButton" @click="signinWithGoogle">Googleログイン</button>
     </div>
 </template>
 
@@ -29,7 +29,7 @@ export default class Signin extends Vue {
                     localStorage.setItem('jwt', idToken.toString());
                 });
 
-                this.$router.push('/addnewbook');
+                this.$router.push('/admin');
             })
             .catch(error => {
                 console.log(error);

@@ -22,15 +22,20 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
     },
     {
-        path: '/addnewbook',
-        name: 'addnewbook',
-        component: () => import(/* webpackChunkName: "addnewbook" */ '../views/BookAdd.vue'),
-    },
-    {
         path: '/signin',
         name: 'signin',
         meta: { isPublic: true },
         component: () => import(/* webpackChunkName: "signin" */ '../views/Signin.vue'),
+    },
+    {
+        path: '/admin',
+        name: 'admin',
+        component: () => import(/* webpackChunkName: "signin" */ '../views/AdminPage.vue'),
+    },
+    {
+        path: '/admin/newbook',
+        name: 'newbook',
+        component: () => import(/* webpackChunkName: "addnewbook" */ '../views/BookAdd.vue'),
     },
 ];
 

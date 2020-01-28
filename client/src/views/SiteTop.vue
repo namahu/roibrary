@@ -21,14 +21,16 @@
                 <span class="bookTitle">title</span>
             </div>
         </div>
-        <router-link to="/addnewbook" class="baseButton linkButton">本を追加する</router-link>
+        <router-link to="/admin" class="baseButton linkButton">管理者メニューへ</router-link>
     </div>
 </template>
 
 <script lang="ts">
 import { Vue, Prop, Component } from 'vue-property-decorator';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
-export default class siteTop extends Vue {}
+export default class SiteTop extends Vue {}
 </script>
 
 <style lang="scss" scoped></style>
