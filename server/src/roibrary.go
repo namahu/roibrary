@@ -1,45 +1,42 @@
 package main
 
 import (
-	"path/filepath"
-
-	"github.com/gin-contrib/multitemplate"
+	"os"
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	router := gin.Default()
-	router.HTMLRender = loadTemplates("./templates")
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", gin.H{
-			"title": "Html5 Template Engine",
-		})
-	})
-
-	router.Run()
-
+func getBook(c *gin.Context) {
+	c.String(200, "Hello")
 }
 
-func loadTemplates(templatsDir string) multitemplate.Renderer {
-	r := multitemplate.NewRenderer()
+func authMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		opt := option.WithCredentialFile(os.Getenv("GOOGLE_APPLICATION_CREDENTIALS"))
+		app, err := firebase.NewApp(context.Background(), nil, opt)
+		if err != nil {
+			fmt.Prinf("error: %v\n", err)
+		}
 
-	layouts, err := filepath.Glob(templatsDir + "/layouts/*.html")
-	if err != nil {
-		panic(err.Error())
+		client, err := app.Auth(context.Background())
+		if err != nil {
+			fmt.Printf("error: %v\n", err)
+		}
+
+		authHeader := router.Header.Get("Authorization")
+		idToken := String.Replace(authHeader, "Bearer ", "", 1)
+		token, err := auth.VerifyIDToken(context.Background(), idToken)
+		if err != nil {
+			fmt.Printf("error Verifying ID Token: %v\n", err)
+		}
 	}
+}
 
-	includes, err := filepath.Glob(templatsDir + "/includes/*.html")
-	if err != nil {
-		panic(err.Error())
-	}
+func main() {
+	router := gin.Default()
+	router.Use(authMiddleware)
 
-	for _, include := range includes {
-		layoutCopy := make([]string, len(layouts))
-		copy(layoutCopy, layouts)
-		files := append(layoutCopy, include)
-		r.AddFromFiles(filepath.Base(include), files...)
-	}
+	router.GET("/getbook", getBook)
 
-	return r
+	router.Run()
 
 }
