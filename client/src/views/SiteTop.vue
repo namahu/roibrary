@@ -27,10 +27,17 @@
 
 <script lang="ts">
 import { Vue, Prop, Component } from 'vue-property-decorator';
-import * as firebase from 'firebase';
-import 'firebase/firestore';
+import axios from 'axios';
 
-export default class SiteTop extends Vue {}
+@Component
+export default class SiteTop extends Vue {
+    private mounted() {
+        axios
+            .get('http://localhost:8000/getbook')
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+    }
+}
 </script>
 
 <style lang="scss" scoped></style>
