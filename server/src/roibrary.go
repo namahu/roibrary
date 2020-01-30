@@ -36,6 +36,7 @@ func authMiddleware() gin.HandlerFunc {
 			fmt.Printf("error Verifying ID Token: %v\n", err)
 			c.Writer.WriteHeader(http.StatusUnauthorized)
 			c.Writer.Write([]byte("error verifying ID token\n"))
+			c.Abort()
 			return
 		}
 		fmt.Printf("Verify ID Token: %v\n", token)
