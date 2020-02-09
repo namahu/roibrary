@@ -16,10 +16,6 @@ import (
 	"google.golang.org/api/option"
 )
 
-func getBook(c *gin.Context) {
-	c.Writer.Write([]byte("Hello\n"))
-}
-
 func initializeFirebase() *firebase.App {
 	opt := option.WithCredentialsFile(os.Getenv("GOOGLE_APPLICATION_CREDENTIALS_DEV"))
 	app, err := firebase.NewApp(context.Background(), nil, opt)
@@ -52,32 +48,36 @@ func authMiddleware(app *firebase.App) gin.HandlerFunc {
 	}
 }
 
-func firestoreMiddleware(app *firebase.App) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		client, err := app.Firestore(context.Background())
-		if err != nil {
-			fmt.Printf("error: %v\n", err)
-		}
-		defer client.Close()
+func getAllDocuments() {
 
-		iter := client.Collection("books").Documents(context.Background())
-		for {
-			doc, err := iter.Next()
-			if err == iterator.Done {
-				break
-			}
-			if err != nil {
-				fmt.Printf("Faild to iterate: %v", err)
-			}
-			fmt.Println(doc.Data())
-		}
+	app := initializeFirebase()
+
+	client, err := app.Firestore(context.Background())
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
 	}
+
+	iter := client.Collection("books").Documents(context.Background())
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			fmt.Printf("Faild to iterate: %v", err)
+		}
+		fmt.Println(doc.Data())
+	}
+	defer client.Close()
+}
+
+func getBook(c *gin.Context) {
+	c.Writer.Write([]byte("Hello\n"))
+	getAllDocuments()
 }
 
 func main() {
 	router := gin.Default()
-
-	app := initializeFirebase()
 
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{"http://localhost:8080"}
@@ -85,7 +85,7 @@ func main() {
 	router.Use(cors.New(config))
 	// router.Use(authMiddleware(app))
 
-	router.GET("/getbook", firestoreMiddleware(app), getBook)
+	router.GET("/getbook", getBook)
 
 	router.Run(":8081")
 
