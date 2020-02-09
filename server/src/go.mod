@@ -7,6 +7,7 @@ require (
 	cloud.google.com/go/firestore v1.1.1 // indirect
 	firebase.google.com/go v3.12.0+incompatible
 	github.com/BurntSushi/toml v0.3.1
+	github.com/gin-contrib/cors v1.3.0 // indirect
 	github.com/gin-contrib/sse v0.1.0
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-playground/locales v0.13.0
@@ -19,7 +20,7 @@ require (
 	github.com/leodido/go-urn v1.2.0
 	github.com/mattn/go-isatty v0.0.11
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
-	github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742
+	github.com/modern-go/reflect2 v1.0.1
 	github.com/ugorji/go v1.1.7
 	go.opencensus.io v0.22.2
 	golang.org/x/exp v0.0.0-20200119233911-0405dc783f0a

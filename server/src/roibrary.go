@@ -2,14 +2,17 @@ package main
 
 import (
 	"net/http"
-	"golang.org/x/net/context"
+
 	firebase "firebase.google.com/go"
+	"golang.org/x/net/context"
 
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"google.golang.org/api/option"
 	"os"
 	"strings"
+
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
+	"google.golang.org/api/option"
 )
 
 func getBook(c *gin.Context) {
@@ -45,10 +48,15 @@ func authMiddleware() gin.HandlerFunc {
 
 func main() {
 	router := gin.Default()
-	router.Use(authMiddleware())
+
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:8080"}
+
+	router.Use(cors.New(config))
+	// router.Use(authMiddleware())
 
 	router.GET("/getbook", getBook)
 
-	router.Run()
+	router.Run(":8081")
 
 }
